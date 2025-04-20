@@ -1,0 +1,37 @@
+amazon-backend/
+├── index.js
+├── config/
+│   └── db.js
+├── routes/
+│   ├── index.js
+│   ├── auth.routes.js
+│   ├── product.routes.js
+│   └── order.routes.js
+├── controllers/
+│   ├── index.js
+│   ├── auth.controller.js
+│   ├── product.controller.js
+│   └── order.controller.js
+├── models/
+│   ├── index.js
+│   ├── user.model.js
+│   ├── product.model.js
+│   └── order.model.js
+├── middlewares/
+│   ├── index.js
+│   ├── auth.middleware.js
+│   └── error.middleware.js
+├── services/
+│   ├── index.js
+│   ├── auth.service.js
+│   └── product.service.js
+├── utils/
+│   ├── index.js
+│   ├── token.js
+│   └── validators.js
+├── constants/
+│   └── index.js
+├── .env
+├── .gitignore
+├── package.json
+└── README.md
