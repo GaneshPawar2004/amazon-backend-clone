@@ -1,9 +1,9 @@
 import { registerUser, loginUser } from '../services/index.js';
 
 export const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, isAdmin } = req.body;
   try {
-    const { user, token } = await registerUser(name, email, password);
+    const { user, token } = await registerUser(name, email, password, isAdmin);
     res.status(201).json({ user, token });
   } catch (err) {
     res.status(400).json({ message: err.message });
