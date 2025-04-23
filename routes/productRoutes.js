@@ -5,7 +5,9 @@ import {
     getProductController,
     updateProductController,
     deleteProductController,
-    getMyProducts 
+    getMyProducts ,
+    addProductReviewController,
+    getProductReviewsController
 } from '../controllers/index.js';
 import { protect,isAdmin } from '../middlewares/index.js';
 
@@ -15,6 +17,8 @@ const router = express.Router();
 router.get('/', getProductsController);
 router.get('/mine', protect, isAdmin, getMyProducts);
 router.get('/:id', getProductController);
+router.post('/:productId/reviews', protect, addProductReviewController);
+router.get('/:productId/reviews', getProductReviewsController);
 
 // Protected routes (optional: restrict to admin)
 router.post('/', protect, isAdmin,createProductController);

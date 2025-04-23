@@ -5,6 +5,8 @@ import {
     updateProduct,
     deleteProduct,
     getProductsByAdmin,
+    addProductReview,
+    getProductReviews
 } from '../services/index.js';
 
 // @desc Create product
@@ -66,5 +68,38 @@ export const deleteProductController = async (req, res) => {
         res.json(result);
     } catch (err) {
         res.status(err.statusCode || 400).json({ message: err.message });
+    }
+};
+
+
+// @desc Add a review to a product
+export const addProductReviewController = async (req, res) => {
+    const { rating, comment } = req.body;
+    const { productId } = req.params;
+
+    try {
+        const product = await addProductReview(req.user._id, productId, rating, comment);
+        res.status(201).json({
+            message: 'Review added successfully',
+            reviews: product.reviews,
+            rating: product.rating,
+            numReviews: product.numReviews
+        });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+};
+
+// @desc Get reviews for a product
+// @route GET /api/products/:productId/reviews
+// @access Public
+export const getProductReviewsController = async (req, res) => {
+    const { productId } = req.params;
+
+    try {
+        const reviews = await getProductReviews(productId);
+        res.json(reviews);
+    } catch (err) {
+        res.status(404).json({ message: err.message });
     }
 };

@@ -1,4 +1,5 @@
 import { Product } from '../models/index.js';
+import User from '../models/User.js';
 
 // CREATE PRODUCT
 export const createProduct = async (productData, userId) => {
@@ -49,4 +50,42 @@ export const deleteProduct = async (id, userId) => {
 
     await product.deleteOne();
     return { message: 'Product deleted successfully' };
+};
+
+// Add a review to a product
+export const addProductReview = async (userId, productId, rating, comment) => {
+    const product = await Product.findById(productId);
+    if (!product) throw new Error('Product not found');
+
+    const alreadyReviewed = product.reviews.find(
+        (r) => r.user.toString() === userId.toString()
+    );
+    if (alreadyReviewed) {
+        throw new Error('Product already reviewed by this user');
+    }
+
+    const user = await User.findById(userId);
+    if (!user) throw new Error('User not found');
+
+    const review = {
+        user: userId,
+        name: user.name,
+        rating: Number(rating),
+        comment,
+    };
+
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length;
+    product.rating =
+        product.reviews.reduce((acc, r) => acc + r.rating, 0) / product.numReviews;
+
+    return await product.save();
+};
+
+// Get all reviews for a product
+export const getProductReviews = async (productId) => {
+    const product = await Product.findById(productId).select('reviews');
+    if (!product) throw new Error('Product not found');
+
+    return product.reviews;
 };
