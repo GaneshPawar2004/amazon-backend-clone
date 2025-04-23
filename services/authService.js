@@ -37,3 +37,39 @@ export const loginUser = async (email, password) => {
     }, token
   };
 };
+
+// Update user profile
+export const updateUserProfile = async (userId, { name, email, password }) => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error('User not found');
+
+  if (name) user.name = name;
+  if (email) user.email = email;
+  if (password) {
+    user.password = await bcrypt.hash(password, 10);  // Hash password before saving
+  }
+
+  await user.save();
+  return user;
+};
+
+// Admin can update any user
+export const updateUserService = async (userId, { name, email, isAdmin }) => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error('User not found');
+
+  if (name) user.name = name;
+  if (email) user.email = email;
+  if (typeof isAdmin !== 'undefined') user.isAdmin = isAdmin;
+
+  await user.save();
+  return user;
+};
+
+// Admin can delete any user
+export const deleteUserService = async (userId) => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error('User not found');
+
+  await user.deleteOne(); // ✅ Correct
+};
