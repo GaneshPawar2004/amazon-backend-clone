@@ -8,30 +8,42 @@ export const createProduct = async (productData, userId) => {
 };
 
 // GET ALL PRODUCTS
-// GET ALL PRODUCTS with search, filter, sort, and pagination
+// GET ALL PRODUCTS with search, filter, sort, minPrice,maxPrice,minRating and pagination
 export const getAllProducts = async (queryParams) => {
-    const { keyword, category, sortBy, sortOrder, page = 1, limit = 10 } = queryParams;
+    const { keyword, category, sortBy, sortOrder, page = 1, limit = 10, minPrice, maxPrice, minRating } = queryParams;
 
     const filter = {};
 
-    // Search by name
+    // 🔍 Search by name
     if (keyword) {
-        filter.name = { $regex: keyword, $options: 'i' }; // case-insensitive
+        filter.name = { $regex: keyword, $options: 'i' };
     }
 
-    // Filter by category
+    // 📂 Filter by category
     if (category) {
         filter.category = category;
     }
 
-    // Sorting logic
+    // 💸 Filter by price range
+    if (minPrice || maxPrice) {
+        filter.price = {};
+        if (minPrice) filter.price.$gte = Number(minPrice);
+        if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    // 🌟 Filter by minimum rating
+    if (minRating) {
+        filter.rating = { $gte: Number(minRating) };
+    }
+
+    // ⬆️ Sorting
     let sortOptions = {};
     if (sortBy) {
         const order = sortOrder === 'desc' ? -1 : 1;
         sortOptions[sortBy] = order;
     }
 
-    // Pagination logic
+    // 📄 Pagination
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
     const products = await Product.find(filter)
@@ -49,6 +61,7 @@ export const getAllProducts = async (queryParams) => {
         totalProducts: total,
     };
 };
+
 
 
 // GET PRODUCT BY ID
