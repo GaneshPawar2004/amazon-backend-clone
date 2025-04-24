@@ -18,7 +18,11 @@ const userSchema = mongoose.Schema(
     isAdmin: { 
       type: Boolean, 
       default: false 
-    }  // <- this line is important
+    },  // <- this line is important
+    wishlist: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Product'
+    }]
   },
   {
     timestamps: true,
