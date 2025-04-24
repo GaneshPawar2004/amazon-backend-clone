@@ -55,3 +55,7 @@ export const deleteOrder = async (orderId) => {
 
     return await order.deleteOne();
 };
+
+export const getUserOrderHistory = async (userId) => {
+    return await Order.find({ user: userId }).sort({ createdAt: -1 });
+};

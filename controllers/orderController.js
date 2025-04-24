@@ -1,4 +1,4 @@
-import { placeOrder, getMyOrders, getAllOrders, getOrderById, updateOrderStatus, deleteOrder } from '../services/index.js';
+import { placeOrder, getMyOrders, getAllOrders, getOrderById, updateOrderStatus, deleteOrder, getUserOrderHistory} from '../services/index.js';
 
 // @desc Place order from cart
 export const placeOrderController = async (req, res) => {
@@ -57,5 +57,14 @@ export const deleteOrderController = async (req, res) => {
         res.json({ message: 'Order deleted successfully', result });
     } catch (err) {
         res.status(404).json({ message: err.message });
+    }
+};
+
+export const getUserOrderHistoryController = async (req, res) => {
+    try {
+        const orders = await getUserOrderHistory(req.user._id);
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 };
