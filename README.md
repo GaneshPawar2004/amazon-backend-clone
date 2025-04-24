@@ -1,4 +1,4 @@
-User Dashboard:
+1 .User Dashboard:
 
 Implement a User Dashboard API to fetch relevant information for the user, such as:
 
@@ -10,3 +10,9 @@ Total spent by the user
 
 Wishlist
 change files(routes/index.js,routes/index.js,model/User.js,controller/index.js,controller/userController.js,service/index.js,service/userService.js)
+
+2. Order History Endpoint for Users:
+
+Provide users with an API to view their order history.
+
+change files(controller/orderController.js,service/orderService.js,routes/orderRoutes.js)
