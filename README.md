@@ -16,3 +16,9 @@ change files(routes/index.js,routes/index.js,model/User.js,controller/index.js,c
 Provide users with an API to view their order history.
 
 change files(controller/orderController.js,service/orderService.js,routes/orderRoutes.js)
+
+3. Search Enhancements:
+
+Implement advanced search functionality for products, allowing users to filter by minPrice, maxPrice, rating.
+
+change files(productService.js)
