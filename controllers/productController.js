@@ -22,7 +22,7 @@ export const createProductController = async (req, res) => {
 // @desc Get all products
 export const getProductsController = async (req, res) => {
     try {
-        const products = await getAllProducts();
+        const products = await getAllProducts(req.query);
         res.json(products);
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch products' });

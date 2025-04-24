@@ -8,9 +8,48 @@ export const createProduct = async (productData, userId) => {
 };
 
 // GET ALL PRODUCTS
-export const getAllProducts = async () => {
-    return await Product.find().populate('createdBy', 'name email');
+// GET ALL PRODUCTS with search, filter, sort, and pagination
+export const getAllProducts = async (queryParams) => {
+    const { keyword, category, sortBy, sortOrder, page = 1, limit = 10 } = queryParams;
+
+    const filter = {};
+
+    // Search by name
+    if (keyword) {
+        filter.name = { $regex: keyword, $options: 'i' }; // case-insensitive
+    }
+
+    // Filter by category
+    if (category) {
+        filter.category = category;
+    }
+
+    // Sorting logic
+    let sortOptions = {};
+    if (sortBy) {
+        const order = sortOrder === 'desc' ? -1 : 1;
+        sortOptions[sortBy] = order;
+    }
+
+    // Pagination logic
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const products = await Product.find(filter)
+        .populate('createdBy', 'name email')
+        .sort(sortOptions)
+        .skip(skip)
+        .limit(parseInt(limit));
+
+    const total = await Product.countDocuments(filter);
+
+    return {
+        products,
+        currentPage: parseInt(page),
+        totalPages: Math.ceil(total / parseInt(limit)),
+        totalProducts: total,
+    };
 };
+
 
 // GET PRODUCT BY ID
 export const getProductById = async (id) => {
