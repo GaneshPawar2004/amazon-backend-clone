@@ -1,18 +1,5 @@
-1 .User Dashboard:
+1. Related Products API:
+Objective: When viewing a product, we wanted to show related products from the same category (excluding the product being viewed).
 
-Implement a User Dashboard API to fetch relevant information for the user, such as:
-
-Orders placed by the user
-
-Current status of orders
-
-Total spent by the user
-
-Wishlist
-change files(routes/index.js,routes/index.js,model/User.js,controller/index.js,controller/userController.js,service/index.js,service/userService.js)
-
-2. Order History Endpoint for Users:
-
-Provide users with an API to view their order history.
-
-change files(controller/orderController.js,service/orderService.js,routes/orderRoutes.js)
+2. Recently Viewed Products API (Optional, but polished the feature):
+Objective: Track recently viewed products for the logged-in user. When the user views a product, we store the product ID in the recentlyViewed array and limit it to 5 products.
